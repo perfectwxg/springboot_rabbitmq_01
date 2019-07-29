@@ -1,7 +1,9 @@
 package com.xianguang.learn.common;
 
 /**
- * Created by steadyjack on 2018/8/20.
+ *
+ * @author steadyjack
+ * @date 2018/8/20
  */
 public class BaseResponse<T> {
 
