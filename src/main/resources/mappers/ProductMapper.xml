@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xianguang.learn.mapper.ProductMapper">
+
+    <resultMap id="BaseResultMap" type="Product">
+        <id property="id" column="id"/>
+
+        <result property="productNo" column="product_no"/>
+        <result property="total" column="total"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <delete id="deleteByPrimaryKey" parameterType="Integer">
+        delete
+        from product
+        where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="Product">
+        insert into product
+        values (#{id}, #{productNo}, #{total}, #{createTime}, #{updateTime})
+    </insert>
+
+    <insert id="insertSelective" parameterType="Product">
+        insert into product
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="productNo != null" >
+                product_no,
+            </if>
+            <if test="total != null" >
+                total,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="productNo != null" >
+                #{productNo,jdbcType=VARCHAR},
+            </if>
+            <if test="total != null" >
+                #{total,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="selectByPrimaryKey" parameterType="Integer" resultMap="BaseResultMap">
+        select *
+        from product
+        where id = #{id}
+    </select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="Product">
+        update product
+        <set>
+            <if test="productNo != null">
+                product_no=#{productNo}
+            </if>
+            <if test="total != null">
+                total=#{total}
+            </if>
+            <if test="createTime != null">
+                createTime=#{createTime}
+            </if>
+            <if test="updateTime != null">
+                updateTime=#{updateTime}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="Product">
+        update product set
+                           product_no=#{productNo},
+                           total=#{total},
+                           create_time=#{createTime},
+                           update_time=#{updateTime}
+
+    </update>
+
+    <select id="selectByProductNo"  parameterType="java.lang.String" resultMap="BaseResultMap" >
+       select id, product_no, total, create_time, update_time
+       from `product`
+       where product_no = #{productNo}
+    </select>
+
+    <update id="updateTotal" parameterType="Product">
+        update product set total=total-1 where product_no=#{productNo} and total>0
+    </update>
+</mapper>
